@@ -163,7 +163,17 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.15; }
   .filter .txt { margin-left: 60%; width: 38%; }
   .filter .cups2 { margin: 36px 0 0 6%; display: flex; gap: 22px; align-items: end; }
   .filter .cups2 [data-art] { color: var(--navy); }
-  .filter .champ { margin: 32px 4% 0 -8%; border-radius: 26px; padding: 24px 30px; }
+
+  /* 6b award: one navy object between sections, photo leaning out of its left edge */
+  .award { min-height: 380px; padding-top: 40px; }
+  .award .pic { left: 12%; top: 0; width: 17%; height: 360px; z-index: 3; }
+  .award .card { margin: 0 6% 0 22%; border-radius: 40px; padding: 44px 48px 40px 15%; }
+  .award .card .t { color: var(--peach); }
+  .award blockquote { margin: 18px 0 0; }
+  .award blockquote p { font-size: 18px; max-width: 58ch; }
+  .award .place { margin-top: 12px; font-family: var(--display); font-weight: 700; }
+  .award .src { margin-top: 18px; font-size: 12px; opacity: .7; }
+  .award .src a { color: inherit; }
 
   /* 7 menu: navy block, peach block dropped and overlapping, photos standing on edges */
   .menu { min-height: 1200px; }
@@ -229,7 +239,7 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.15; }
     .stage .flow { margin-left: 0 !important; margin-right: 0 !important; width: auto !important; }
     .story .strip.flow { margin-left: calc(-1 * var(--gutter)) !important; margin-right: 8% !important; }
     .menu .two.flow { margin: -28px 0 0 6% !important; }
-    .roast .only, .roast .shop, .filter .champ, .team .pe { margin-left: 0 !important; margin-right: 0 !important; width: auto !important; }
+    .roast .only, .roast .shop, .team .pe { margin-left: 0 !important; margin-right: 0 !important; width: auto !important; }
     .stage { height: auto !important; display: flex; flex-direction: column; }
     .stage > .abs { position: relative; left: auto !important; top: auto !important; right: auto !important;
       bottom: auto !important; width: auto !important; }
@@ -263,7 +273,9 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.15; }
     .esp .band .ph.lift { margin-top: -40px; }
     .filter .panel { height: 460px; margin-right: 14%; }
     .filter .origami { height: 240px; margin: -140px 0 0 52%; }
-    .filter .txt { margin-top: 28px; } .filter .champ { margin-top: 24px; }
+    .filter .txt { margin-top: 28px; }
+    .award .pic { height: 300px; margin: 0 40% 0 0; }
+    .award .card { margin: -60px 0 0 8% !important; padding: 80px 26px 28px; }
     .menu .title { margin-bottom: 20px; }
     .menu .cols { grid-template-columns: 1fr; }
     .menu .one { padding: 36px 26px; margin-right: 4%; }

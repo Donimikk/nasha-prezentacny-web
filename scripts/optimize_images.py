@@ -34,6 +34,7 @@ MANIFEST = {
     "assets/photos/ivona-peter.jpg": ("ivona-peto.webp", 1000),
     IG + "06-DFFQgU3oZpn.jpg": ("cupping.webp", 900),
     IG + "01-DeD6ZGAKQSu.jpg": ("peto-aeropress.webp", 900),
+    IG + "10-CxpJYHOIHM3.jpg": ("filter-nalievanie.webp", 900),
     # Instagram strip (shown 260 px tall)
     IG + "14-CsV0dKPo4s7.jpg": ("ig-cappuccino.webp", 640),
     IG + "21-Cnv_1sfoEQZ.jpg": ("ig-origami.webp", 640),
