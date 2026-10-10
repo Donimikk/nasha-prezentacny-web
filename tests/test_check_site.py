@@ -7,7 +7,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from check_site import check_site  # noqa: E402
 
 PAGE = """<!doctype html><html lang="sk"><head>
-<link rel="stylesheet" href="css/site.css"></head><body><main>
+<link rel="stylesheet" href="css/site.css"></head><body><main><h1>Nasha</h1>
 <img src="img/a.webp" alt="a" width="10" height="10">
 <div class="decanter" data-logo="img/logo.svg"></div>
 <a href="#kava">x</a><a href="https://example.com">y</a>
@@ -75,6 +75,19 @@ class CheckSiteTest(unittest.TestCase):
     def test_root_absolute_path(self):
         root = self.make(page=PAGE.replace('src="img/a.webp"', 'src="/img/a.webp"'))
         self.assertEqual(check_site(root), [])
+
+    def test_og_image_must_be_absolute(self):
+        page = PAGE.replace("<head>", '<head><meta property="og:image" content="img/a.webp">')
+        problems = check_site(self.make(page=page))
+        self.assertTrue(any("og:image" in p for p in problems), problems)
+
+    def test_absolute_og_image_is_fine(self):
+        page = PAGE.replace("<head>", '<head><meta property="og:image" content="https://x.sk/img/a.webp">')
+        self.assertEqual(check_site(self.make(page=page)), [])
+
+    def test_page_needs_one_h1(self):
+        problems = check_site(self.make(page=PAGE.replace("<h1>Nasha</h1>", "")))
+        self.assertTrue(any("h1" in p for p in problems), problems)
 
     def test_non_ascii_file_name(self):
         root = self.make(files={"img/káva.webp": b"x"})

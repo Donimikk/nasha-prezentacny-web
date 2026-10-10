@@ -5,7 +5,8 @@ Vranov nad Topľou (Slovakia). Plain HTML, CSS and JavaScript — no framework, 
 
 ## Structure
 - `site/` — the published website (Render serves this folder)
-- `scripts/optimize_images.py` — converts source photos to WebP in `site/img/`
+- `scripts/optimize_images.py` — converts source photos to WebP in `site/img/`; it needs the
+  original Instagram photos in `assets/instagram/`, which are kept locally and not committed
 - `scripts/check_site.py` — checks links, image attributes, tag balance and page weight
 - `docs/` — research, design mockups, spec and plan (not published)
 - `assets/` — source photos and logos (not published)
@@ -19,6 +20,7 @@ Open http://localhost:8000.
     python -m pip install -r requirements-dev.txt
     python -m pytest
     python scripts/check_site.py site
+    python scripts/check_site.py site 404.html
 
 ## Deploy
 Every push to `main` is deployed by Render (Static Site, publish path `site`, no build command).

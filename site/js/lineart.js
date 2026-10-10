@@ -80,9 +80,21 @@
           `rotateX(${(it.tilt + my * 18 * it.d).toFixed(1)}deg) rotateY(${(-mx * 22 * it.d).toFixed(1)}deg) rotate(${it.rot}deg)`;
         it.el.style.opacity = (1 - p * 0.8).toFixed(2);
       }
-      requestAnimationFrame(frame);
+      if (visible) raf = requestAnimationFrame(frame);
+      else raf = null;
     }
-    if (!reduce) requestAnimationFrame(frame);
-    else items.forEach((it) => { it.el.style.transform = `rotate(${it.rot}deg)`; });
+
+    // On phones the CSS pins the objects in place, so the loop would only burn battery.
+    const phone = window.matchMedia('(max-width: 900px)').matches;
+    if (reduce || phone) {
+      items.forEach((it) => { it.el.style.transform = `rotate(${it.rot}deg)`; });
+      return;
+    }
+    // run the loop only while the hero is on screen
+    let visible = false, raf = null;
+    new IntersectionObserver((entries) => {
+      visible = entries[0].isIntersecting;
+      if (visible && raf === null) raf = requestAnimationFrame(frame);
+    }).observe(field);
   });
 })();

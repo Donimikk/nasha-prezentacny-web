@@ -20,6 +20,7 @@ class _Page(HTMLParser):
     def __init__(self):
         super().__init__()
         self.refs, self.imgs, self.stack, self.balance = [], [], [], []
+        self.og_images, self.h1_count = [], 0
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
@@ -28,6 +29,10 @@ class _Page(HTMLParser):
                 self.refs.append(a[key])
         if tag == "img":
             self.imgs.append(a)
+        if tag == "h1":
+            self.h1_count += 1
+        if tag == "meta" and a.get("property") == "og:image":
+            self.og_images.append(a.get("content", ""))
         if tag in TRACKED:
             self.stack.append((tag, self.getpos()))
 
@@ -106,6 +111,13 @@ def check_site(root, page="index.html", image_budget=1_572_864):
             problems.append(f"<img src={src}>: missing alt attribute")
         if not img.get("width") or not img.get("height"):
             problems.append(f"<img src={src}>: missing width/height")
+
+    # link previews (Facebook, LinkedIn, Slack) need an absolute og:image URL
+    for url in parser.og_images:
+        if not url.startswith(("https://", "http://")):
+            problems.append(f"og:image {url!r}: must be an absolute URL")
+    if parser.h1_count != 1:
+        problems.append(f"page has {parser.h1_count} <h1> elements, expected exactly 1")
 
     for path in root.rglob("*"):
         if path.is_file() and not NAME_OK.match(path.name):
