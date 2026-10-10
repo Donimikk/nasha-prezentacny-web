@@ -140,9 +140,14 @@
     }
 
     host.addEventListener('click', play);
-    new IntersectionObserver((entries, obs) => {
-      if (entries[0].isIntersecting) { play(); obs.disconnect(); }
-    }, { threshold: 0.4 }).observe(host);
+    // Start only when most of the panel is on screen, and replay each time it
+    // comes back into view after having left it completely.
+    let armed = true;
+    new IntersectionObserver((entries) => {
+      const e = entries[0];
+      if (e.intersectionRatio >= 0.75 && armed) { armed = false; play(); }
+      else if (!e.isIntersecting) armed = true;
+    }, { threshold: [0, 0.75] }).observe(host);
   };
 
   document.querySelectorAll('.decanter').forEach(window.mountDecanter);

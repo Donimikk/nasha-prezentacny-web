@@ -161,3 +161,6 @@ Facts from captions:
   the Oct 2022 opening (Startitup + IG posts from 2022). Treat 2022 as correct.
 - Posts by other accounts in the grid: mareksvitek (Peter, AeroPress champion), europeancoffeetrip,
   startitup_sk, kubko_foti — their photos need those authors' permission.
+
+## Correction 2026-10-10
+- Nasha blend 90/10 origins (Dominik): Brazil, Guatemala, Vietnam — 90 % arabica, 10 % robusta.
