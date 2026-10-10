@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nasha — návrh B: Lístok</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  /* Direction B: the website reads like the printed menu. White paper,
+     wide-tracked caps, navy line-art cups and one navy block per spread. */
+  [data-cup] { display: inline-block; color: var(--navy); }
+  [data-cup] svg { width: 100%; height: auto; display: block; }
+
+  .hero { position: relative; text-align: center; padding: 120px 0 140px; overflow: hidden; }
+  .hero .logo { width: min(560px, 80%); margin: 0 auto; }
+  .hero .sub { margin-top: 36px; font-size: 15px; }
+  .hero .hours { margin-top: 18px; font-size: 15px; }
+  .scatter { position: absolute; inset: 0; pointer-events: none; }
+  .scatter span { position: absolute; }
+
+  .spread { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 96px);
+    align-items: start; margin-block: 80px 140px; }
+  .navy { background: var(--navy); color: var(--white); border-radius: var(--r-md);
+    padding: clamp(40px, 5vw, 72px); text-align: center; }
+  .navy h2 { font-size: clamp(26px, 3vw, 38px); margin-bottom: 40px; }
+  .navy h3 { font-size: 16px; letter-spacing: 0.2em; margin-top: 28px; }
+  .navy [data-cup] { color: var(--peach); width: 34px; margin-top: 28px; }
+  .story h2 { font-size: clamp(26px, 3vw, 38px); margin: 8px 0 24px; }
+  .story p { margin-bottom: 16px; max-width: 46ch; }
+
+  .pour { margin-block: 140px; }
+  .pour .band { background: var(--peach); border-radius: var(--r-lg);
+    display: grid; grid-template-columns: 360px 1fr; align-items: center; gap: 56px;
+    padding: 40px clamp(32px, 5vw, 72px); }
+  .pour .decanter { background: transparent; height: 460px; }
+  .pour h2 { font-size: clamp(28px, 3.6vw, 48px); margin: 12px 0 20px; }
+  .pour p { max-width: 46ch; }
+  .pour ol { list-style: none; margin-top: 28px; display: grid; gap: 12px; counter-reset: s; }
+  .pour li { counter-increment: s; display: flex; gap: 16px; }
+  .pour li::before { content: counter(s); font-family: var(--display); font-weight: 700;
+    width: 32px; height: 32px; border-radius: 50%; background: var(--navy); color: var(--peach);
+    display: grid; place-items: center; flex: none; font-size: 14px; }
+
+  .menu { margin-block: 140px; }
+  .menu .title { text-align: center; margin-bottom: 64px; }
+  .menu .title h2 { font-size: clamp(28px, 3.6vw, 48px); }
+  .menu .pages { display: grid; grid-template-columns: 1fr 1fr; gap: 0 clamp(40px, 8vw, 120px); }
+  .menu h3 { font-size: 20px; letter-spacing: 0.2em; margin: 44px 0 14px; }
+  .menu .pages > div > h3:first-child { margin-top: 0; }
+  .menu .cups { display: flex; gap: 28px; align-items: end; margin-top: 48px; }
+  .menu .cups span { width: 54px; }
+
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-block: 140px; }
+  .two .card { border-radius: var(--r-lg); overflow: hidden; }
+  .two .card img { aspect-ratio: 4 / 5; width: 100%; object-fit: cover; }
+  .two h2 { font-size: 26px; margin: 24px 0 8px; }
+
+  footer { background: var(--navy); color: var(--white); padding: 96px 0 64px; margin-top: 140px; }
+  footer .cols { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 48px; }
+  footer img { height: 48px; margin-bottom: 24px; }
+  footer h3 { color: var(--peach); font-size: 14px; letter-spacing: 0.2em; margin-bottom: 14px; }
+
+  @media (max-width: 860px) {
+    .spread, .pour .band, .menu .pages, .two, footer .cols { grid-template-columns: 1fr; }
+    .pour .decanter { height: 380px; }
+    .hero { padding: 72px 0 96px; }
+    .scatter { display: none; }
+  }
+</style>
+</head>
+<body>
+<header class="wrap bar">
+  <img src="../../assets/brand/nasha-logo-blue.svg" alt="nasha">
+  <nav><a href="#story">Príbeh</a><a href="#listok">Lístok</a><a href="#navsteva">Návšteva</a></nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="scatter" aria-hidden="true">
+      <span data-cup="tumbler" style="left:6%;top:18%;width:54px;transform:rotate(-14deg)"></span>
+      <span data-cup="cup" style="right:8%;top:14%;width:84px"></span>
+      <span data-cup="bean" style="left:20%;top:62%;width:24px"></span>
+      <span data-cup="plate" style="right:16%;bottom:14%;width:80px;transform:rotate(8deg)"></span>
+      <span data-cup="fluted" style="left:12%;bottom:8%;width:50px;transform:rotate(10deg)"></span>
+      <span data-cup="bean" style="right:28%;top:30%;width:22px"></span>
+      <span data-cup="tumbler" style="right:4%;top:52%;width:46px;transform:rotate(12deg)"></span>
+    </div>
+    <img class="logo" src="../../assets/brand/nasha-logo-blue.svg" alt="nasha">
+    <p class="sub caps">Kaviareň a pražiareň · Vranov nad Topľou</p>
+    <p class="hours">Po–Pi 7:00–17:30 · So 8:30–16:00 · Námestie slobody 2467/3</p>
+  </section>
+
+  <section class="wrap spread" id="story">
+    <div class="navy">
+      <h2 class="caps">Prečo výberová káva?</h2>
+      <h3 class="caps">Lepšia kvalita</h3><p>Žiadne defektné zrná, čisté chute.</p>
+      <span data-cup="bean"></span>
+      <h3 class="caps">Spravodlivé odmeny</h3><p>Podpora farmárov a pestovateľov.</p>
+      <span data-cup="bean"></span>
+      <h3 class="caps">Čerstvosť</h3><p>Pražené lokálne, u nás vždy čerstvé.</p>
+    </div>
+    <div class="story">
+      <p class="eyebrow">Nasha story</p>
+      <h2>Viac než len podávať kávu.</h2>
+      <p>Keď sme zakladali Nashu, chceli sme viac než len podávať kávu. Chceli sme vytvoriť priestor, kde sa stretávajú ľudia, ktorí majú radi kvalitu a dobrú atmosféru.</p>
+      <p>Naša kaviareň nám umožňuje priniesť ti čerstvo praženú výberovú kávu, ktorú si môžeš vychutnať u nás alebo si ju vziať domov.</p>
+      <p>Podporou Nasha podporuješ férový obchod, lokálnu kvalitu a miesto, ktoré má dušu.</p>
+      <p class="note">Text je doslovne z vášho tlačeného lístka.</p>
+    </div>
+  </section>
+
+  <section class="wrap pour">
+    <div class="band">
+      <div class="decanter" data-logo="../../assets/brand/nasha-logo.svg"></div>
+      <div>
+        <p class="eyebrow">Filtrovaná káva</p>
+        <h2>Pomaly, cez papierový filter.</h2>
+        <p>Okrem espressa pripravujeme kávu aj ručne. Takto vyniknú ovocné a kvetinové chute svetlejšie praženej kávy.</p>
+        <ol>
+          <li>18 g čerstvo namletej výberovej kávy</li>
+          <li>Voda sa leje postupne, v niekoľkých dávkach</li>
+          <li>Hotové za pár minút — V60, AeroPress alebo batch brew</li>
+        </ol>
+        <p class="note" style="margin-top:20px">Kliknutím na dekantér sa animácia spustí znova.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap menu" id="listok">
+    <div class="title"><p class="eyebrow">Platí od 1. 4. 2025 — overiť</p><h2 class="caps">Nápojový lístok</h2></div>
+    <div class="pages">
+      <div>
+        <h3 class="caps">Čierna káva</h3><ul class="menu-list">
+          <li>Espresso<span>1.8</span></li><li>Espresso lungo<span>1.8</span></li>
+          <li>Caffè americano<span>1.8</span></li><li>Double shot<span>2.7</span></li></ul>
+        <h3 class="caps">Mliečna káva</h3><ul class="menu-list">
+          <li>Espresso con panna<span>2.6</span></li><li>Espresso macchiato<span>2.2</span></li>
+          <li>Cappuccino<span>2.4</span></li><li>Caffè latte<span>2.6</span></li><li>Flat white<span>2.9</span></li></ul>
+        <h3 class="caps">Doplnky ku káve</h3><ul class="menu-list">
+          <li>Sirup<span>0.3</span></li><li>Alternatívne mlieko<span>0.4</span></li>
+          <li>Bezkofeínová káva<span>0.3</span></li><li>Extra shot<span>0.6</span></li></ul>
+        <div class="cups" aria-hidden="true"><span data-cup="cup"></span><span data-cup="fluted"></span><span data-cup="tumbler"></span></div>
+      </div>
+      <div>
+        <h3 class="caps">Filtrovaná káva</h3><ul class="menu-list">
+          <li><div>AeroPress<small>18 g čerstvo namletej výberovej kávy</small></div><span>3.2</span></li>
+          <li>V60<span>3.2</span></li>
+          <li><div>Batch brew<small>káva pripravená cez Fellow Aiden</small></div><span>2.8</span></li></ul>
+        <h3 class="caps">Káva na ľade</h3><ul class="menu-list">
+          <li>Ice latte<span>3.1</span></li><li>Iced cappuccino<span>3.4</span></li>
+          <li>Espresso tonic<span>3.6</span></li><li>Náš espresso tonic<span>3.9</span></li></ul>
+        <h3 class="caps">Super latte</h3><ul class="menu-list">
+          <li>Matcha latte<span>2.9</span></li><li>Chai latte<span>2.9</span></li>
+          <li>Beetroot latte<span>2.9</span></li><li>Hojicha latte<span>2.9</span></li><li>Kurkuma latte<span>3.1</span></li></ul>
+        <h3 class="caps">Limonády &amp; ľadové čaje</h3><ul class="menu-list">
+          <li>Jahoda &amp; mäta<span>3.6</span></li><li>Passion &amp; mango<span>3.6</span></li>
+          <li>Matcha limo<span>3.6</span></li><li>Ľadový čaj zelený / čierny<span>3.6</span></li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap two">
+    <div>
+      <div class="card"><img src="../../assets/brand/illustration/6f98a6dd-9f14-457d-aae3-8ce3701df8d5.jfif" alt="Koláč"></div>
+      <h2 class="caps">Koláče</h2><p>Od cukrárne Kejtlyn, pár krokov od nás.</p>
+    </div>
+    <div>
+      <div class="card"><img src="../../assets/brand/illustration/ad9c4c7d-6df8-4285-acfc-68d000f8d489.jfif" alt="Káva na predaj v policiach"></div>
+      <h2 class="caps">Káva domov</h2><p>Zrná, filtre, AeroPress a čaje — všetko na pultoch v kaviarni.</p>
+    </div>
+  </section>
+</main>
+
+<footer id="navsteva">
+  <div class="wrap cols">
+    <div><img src="../../assets/brand/nasha-logo.svg" alt="nasha"><p>Námestie slobody 2467/3<br>Vranov nad Topľou</p></div>
+    <div><h3 class="caps">Otvorené</h3><p>Po–Pi 7:00 – 17:30<br>So 8:30 – 16:00<br>Ne zatvorené</p></div>
+    <div><h3 class="caps">Sleduj nás</h3><p>@nasha.kaviaren</p></div>
+  </div>
+</footer>
+<script src="cups.js"></script>
+<script src="decanter.js"></script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nasha — návrh A: Stĺpy</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  /* Direction A: tall vertical blocks carry the page; text sits in the white
+     space next to them. One block per section, never a grid of blocks. */
+  .hero {
+    display: grid; grid-template-columns: 1.1fr 0.9fr; gap: var(--gutter);
+    align-items: end; min-height: min(86vh, 820px); padding-bottom: 64px;
+  }
+  .hero h1 { font-size: clamp(40px, 6vw, 84px); letter-spacing: -0.01em; max-width: 11ch; }
+  .hero p { max-width: 42ch; margin-top: 24px; font-size: 19px; }
+  .hero .meta { display: flex; gap: 32px; margin-top: 48px; flex-wrap: wrap; }
+  .hero .meta div { font-size: 14px; }
+  .hero .decanter { border-radius: var(--r-lg); height: min(78vh, 760px); padding: 32px 24px 0; }
+
+  .why { margin-block: 120px; }
+  .why .block {
+    background: var(--navy); color: var(--white); border-radius: var(--r-lg);
+    padding: clamp(40px, 6vw, 88px); display: grid; grid-template-columns: 1fr 2fr; gap: 48px;
+  }
+  .why h2 { font-size: clamp(28px, 3.4vw, 44px); color: var(--peach); }
+  .why ul { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .why li strong { display: block; margin-bottom: 8px; }
+
+  .split { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(32px, 6vw, 96px);
+    align-items: center; margin-block: 140px; }
+  .split.rev { grid-template-columns: 1.2fr 0.8fr; }
+  .split.rev .photo { order: 2; }
+  .photo { border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 3 / 4; }
+  .photo img { width: 100%; height: 100%; object-fit: cover; }
+  .split h2 { font-size: clamp(30px, 4vw, 56px); margin: 16px 0 24px; max-width: 14ch; }
+  .split p { max-width: 48ch; margin-bottom: 16px; }
+
+  .menu { margin-block: 140px; }
+  .menu .band {
+    background: var(--peach); border-radius: var(--r-lg);
+    padding: clamp(40px, 6vw, 80px);
+  }
+  .menu .head { display: flex; justify-content: space-between; align-items: baseline;
+    gap: 24px; flex-wrap: wrap; margin-bottom: 40px; }
+  .menu h2 { font-size: clamp(30px, 4vw, 56px); }
+  .menu .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 56px; }
+  .menu h3 { font-size: 16px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 14px; }
+
+  .team { margin-block: 140px; }
+  .team .intro { max-width: 54ch; margin-bottom: 56px; }
+  .team h2 { font-size: clamp(30px, 4vw, 56px); margin: 16px 0; }
+  .people { display: grid; grid-template-columns: repeat(2, minmax(0, 360px)); gap: 40px; }
+  .person .tall { background: var(--navy); border-radius: var(--r-lg); aspect-ratio: 3 / 4.2;
+    display: grid; place-items: center; color: var(--peach); }
+  .person h3 { margin-top: 20px; font-size: 22px; }
+
+  .visit { margin-block: 140px 0; }
+  .visit .block { background: var(--navy); color: var(--white);
+    border-radius: var(--r-lg) var(--r-lg) 0 0; padding: clamp(40px, 6vw, 96px);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+  .visit h2 { font-size: clamp(30px, 4vw, 56px); color: var(--peach); }
+  .visit dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 24px; margin-top: 24px; }
+  .visit .map { background: var(--peach); border-radius: var(--r-md); min-height: 300px;
+    display: grid; place-items: center; color: var(--navy); }
+
+  @media (max-width: 860px) {
+    .hero, .split, .split.rev, .why .block, .visit .block { grid-template-columns: 1fr; }
+    .split.rev .photo { order: 0; }
+    .hero { min-height: 0; padding-top: 24px; }
+    .hero .decanter { height: 520px; }
+    .why ul, .menu .cols { grid-template-columns: 1fr; }
+    .people { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .split, .menu, .team, .why { margin-block: 72px; }
+  }
+</style>
+</head>
+<body>
+<header class="wrap bar">
+  <img src="../../assets/brand/nasha-logo-blue.svg" alt="nasha">
+  <nav><a href="#kava">Káva</a><a href="#listok">Lístok</a><a href="#tim">Tím</a><a href="#navsteva">Návšteva</a></nav>
+</header>
+
+<main>
+  <section class="wrap hero">
+    <div>
+      <p class="eyebrow">Vranov nad Topľou · od 2022</p>
+      <h1>Výberová káva v&nbsp;centre Vranova.</h1>
+      <p>Kaviareň a pražiareň na Námestí slobody. Espresso, filtrovaná káva, koláče a miesto, kde si môžeš sadnúť.</p>
+      <div class="meta">
+        <div><span class="eyebrow">Po–Pi</span><br>7:00 – 17:30</div>
+        <div><span class="eyebrow">So</span><br>8:30 – 16:00</div>
+        <div><span class="eyebrow">Adresa</span><br>Námestie slobody 2467/3</div>
+      </div>
+    </div>
+    <div class="decanter" data-logo="../../assets/brand/nasha-logo.svg"></div>
+  </section>
+
+  <section class="wrap why">
+    <div class="block">
+      <h2 class="caps">Prečo výberová káva?</h2>
+      <ul>
+        <li><strong class="caps">Lepšia kvalita</strong>Žiadne defektné zrná, čisté chute.</li>
+        <li><strong class="caps">Spravodlivé odmeny</strong>Podpora farmárov a pestovateľov.</li>
+        <li><strong class="caps">Čerstvosť</strong>Pražené lokálne, u nás vždy čerstvé.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="wrap split" id="kava">
+    <div class="photo"><img src="../../assets/brand/illustration/c0ce1a3e-902f-414f-8a56-771a142967e6.jfif" alt="Vrecia zelenej kávy v pražiarni"></div>
+    <div>
+      <p class="eyebrow">Káva, ktorú pražíme</p>
+      <h2>Od zeleného zrna po tvoju šálku.</h2>
+      <p>V jednom mlynčeku máme espresso z&nbsp;100&nbsp;% arabiky, v druhom sa striedajú svetlejšie, ovocnejšie kávy. Na filter pripravujeme V60, AeroPress a batch brew.</p>
+      <p>Zrná si môžeš kúpiť aj domov.</p>
+      <p class="note">Text je zatiaľ z verejných článkov — doplní sa o vašu pražiareň.</p>
+    </div>
+  </section>
+
+  <section class="wrap menu" id="listok">
+    <div class="band">
+      <div class="head">
+        <h2 class="caps">Nápojový lístok</h2>
+        <span class="note">Ceny z lístka platného od 1. 4. 2025 — overiť</span>
+      </div>
+      <div class="cols">
+        <div><h3>Čierna káva</h3><ul class="menu-list">
+          <li>Espresso<span>1.8</span></li><li>Espresso lungo<span>1.8</span></li>
+          <li>Caffè americano<span>1.8</span></li><li>Double shot<span>2.7</span></li></ul></div>
+        <div><h3>Mliečna káva</h3><ul class="menu-list">
+          <li>Espresso macchiato<span>2.2</span></li><li>Cappuccino<span>2.4</span></li>
+          <li>Caffè latte<span>2.6</span></li><li>Flat white<span>2.9</span></li></ul></div>
+        <div><h3>Filtrovaná káva</h3><ul class="menu-list">
+          <li>AeroPress<span>3.2</span></li><li>V60<span>3.2</span></li>
+          <li><div>Batch brew<small>cez Fellow Aiden</small></div><span>2.8</span></li></ul></div>
+        <div><h3>Káva na ľade</h3><ul class="menu-list">
+          <li>Ice latte<span>3.1</span></li><li>Iced cappuccino<span>3.4</span></li>
+          <li>Espresso tonic<span>3.6</span></li><li>Náš espresso tonic<span>3.9</span></li></ul></div>
+        <div><h3>Super latte</h3><ul class="menu-list">
+          <li>Matcha latte<span>2.9</span></li><li>Chai latte<span>2.9</span></li>
+          <li>Beetroot latte<span>2.9</span></li><li>Kurkuma latte<span>3.1</span></li></ul></div>
+        <div><h3>Limonády</h3><ul class="menu-list">
+          <li>Jahoda &amp; mäta<span>3.6</span></li><li>Passion &amp; mango<span>3.6</span></li>
+          <li>Pravá citrónová<span>3.6</span></li><li>Ružový grapefruit<span>3.6</span></li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap split rev">
+    <div class="photo"><img src="../../assets/brand/illustration/6f98a6dd-9f14-457d-aae3-8ce3701df8d5.jfif" alt="Koláč s karamelom a arašidmi"></div>
+    <div>
+      <p class="eyebrow">Koláče</p>
+      <h2>Ku káve niečo sladké.</h2>
+      <p>Dezerty nám pečie cukráreň Kejtlyn, pár krokov od kaviarne.</p>
+      <p class="note">Doplniť: aktuálne koláče, kto ich pečie, fotky.</p>
+    </div>
+  </section>
+
+  <section class="wrap team" id="tim">
+    <div class="intro">
+      <p class="eyebrow">Tím</p>
+      <h2>Ivona a Peter</h2>
+      <p>Pred kaviarňou robili kávové pikniky v prírode — kamaráti tomu hovorili „mobilná kaviareň“. V októbri 2022 otvorili Nashu v priestore bývalej garáže.</p>
+    </div>
+    <div class="people">
+      <div class="person"><div class="tall caps">foto</div><h3>Ivona Jurková</h3><p class="note">rola — doplniť</p></div>
+      <div class="person"><div class="tall caps">foto</div><h3>Peter Jurko</h3><p class="note">pražiar, barista — doplniť</p></div>
+    </div>
+  </section>
+
+  <section class="visit" id="navsteva">
+    <div class="wrap block">
+      <div>
+        <h2 class="caps">Príď k nám</h2>
+        <dl>
+          <dt class="eyebrow">Adresa</dt><dd>Námestie slobody 2467/3, Vranov nad Topľou</dd>
+          <dt class="eyebrow">Po–Pi</dt><dd>7:00 – 17:30</dd>
+          <dt class="eyebrow">So</dt><dd>8:30 – 16:00</dd>
+          <dt class="eyebrow">Ne</dt><dd>zatvorené</dd>
+        </dl>
+        <p style="margin-top:24px">Terasa · psy vítané · bezbariérový vstup · rastlinné mlieko</p>
+      </div>
+      <div class="map caps">mapa</div>
+    </div>
+  </section>
+</main>
+<script src="decanter.js"></script>
+</body>
+</html>

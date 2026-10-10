@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nasha — návrh D: Asymetria</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  /* Direction D: every section is composed differently. Rectangles overlap in
+     parts, never meet corner to corner, and their sizes and offsets change
+     from section to section. Large blocks get a larger radius than small ones. */
+  :root { --r-xl: 48px; }
+  .stage { position: relative; }
+  .rect { position: absolute; }
+  .peachb { background: var(--peach); }
+  .navyb { background: var(--navy); color: var(--white); }
+  section { margin-block: 150px; }
+  h2 { font-size: clamp(30px, 4vw, 56px); }
+  .t { font-family: var(--display); font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.2em; font-size: 15px; }
+
+  /* 1 hero: tall peach panel right, navy bar crossing its lower-left corner */
+  .hero { margin-top: 24px; height: 760px; }
+  .hero .copy { position: absolute; left: 0; top: 70px; width: 46%; }
+  .hero h1 { font-size: clamp(40px, 5.6vw, 82px); line-height: 1.05; }
+  .hero .copy p { margin-top: 24px; max-width: 36ch; font-size: 19px; }
+  .hero .panel { right: 3%; top: 0; width: 38%; height: 640px; border-radius: var(--r-xl); }
+  .hero .panel { padding: 24px 24px 180px; }
+  .hero .bar { left: 28%; bottom: 70px; width: 50%; padding: 30px 40px; border-radius: 30px;
+    display: grid; grid-template-columns: repeat(3, auto); gap: 32px; z-index: 2; }
+  .hero .bar b { display: block; color: var(--peach); font-family: var(--display); }
+
+  /* 2 story: wide peach strip from the left edge, window photo dropping over its right end */
+  .story { height: 620px; }
+  .story .strip { left: calc((100% - 100vw) / 2); top: 60px; width: 72%; height: 420px;
+    border-radius: 0 var(--r-xl) var(--r-xl) 0; padding: 64px 0 0 calc((100vw - 100%) / 2 + 40px); }
+  .story .strip p { max-width: 44ch; margin-top: 20px; }
+  .story .photo { right: 4%; top: 0; width: 30%; height: 560px; border-radius: 36px; overflow: hidden; z-index: 2; }
+  .story img, .coffee img, .cakes img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* 3 why: narrow tall navy block, small peach bar overlapping its top edge */
+  .why { height: 560px; }
+  .why .tall { left: 8%; top: 40px; width: 34%; height: 520px; border-radius: var(--r-xl);
+    padding: 120px 48px 48px; }
+  .why .tall h2 { color: var(--peach); font-size: clamp(26px, 3vw, 40px); }
+  .why .tag { left: 26%; top: 0; width: 22%; height: 84px; border-radius: 24px; z-index: 2; }
+  .why ul { position: absolute; left: 50%; top: 110px; width: 44%; list-style: none; display: grid; gap: 36px; }
+  .why li b { display: block; }
+
+  /* 4 coffee: photo bar on the right, peach block peeking out below-left of it */
+  .coffee { height: 600px; }
+  .coffee .back { right: 30%; top: 210px; width: 26%; height: 360px; border-radius: 36px; }
+  .coffee .photo { right: -2%; top: 0; width: 52%; height: 470px; border-radius: var(--r-xl); overflow: hidden; z-index: 2; }
+  .coffee .copy { position: absolute; left: 0; top: 30px; width: 36%; }
+  .coffee .copy p { margin-top: 18px; max-width: 40ch; }
+
+  /* 5 menu: navy block, peach block overlapping and dropped lower */
+  .menu { height: 900px; }
+  .menu .one { left: 0; top: 90px; width: 52%; height: 640px; border-radius: var(--r-xl); padding: 64px 56px; }
+  .menu .two { left: 46%; top: 230px; width: 50%; height: 600px; border-radius: 40px; padding: 64px 56px; z-index: 2; }
+  .menu .title { position: absolute; left: 56%; top: 90px; white-space: nowrap;
+    font-size: clamp(26px, 3vw, 44px); }
+  .menu .one > * { max-width: 76%; }
+  .menu h3 { margin: 28px 0 10px; }
+  .menu h3:first-child { margin-top: 0; }
+  .menu .one .menu-list span { color: var(--peach); }
+
+  /* 6 cakes: tall photo, small peach caption bar overlapping its lower left */
+  .cakes { height: 640px; }
+  .cakes .photo { left: 18%; top: 0; width: 34%; height: 600px; border-radius: var(--r-xl); overflow: hidden; }
+  .cakes .cap { left: 8%; top: 430px; width: 30%; padding: 28px 32px; border-radius: 26px; z-index: 2; }
+  .cakes .copy { position: absolute; left: 60%; top: 140px; width: 36%; }
+  .cakes .copy p { margin-top: 16px; }
+
+  /* 7 team: three blocks of different heights on a broken baseline */
+  .team { height: 700px; }
+  .team .copy { position: absolute; right: 0; top: 0; width: 34%; }
+  .team .copy p { margin-top: 16px; }
+  .team .p { border-radius: 40px; display: flex; align-items: flex-end; padding: 24px 28px;
+    font-family: var(--display); font-weight: 700; font-size: 20px; }
+  .team .p1 { left: 0; top: 60px; width: 22%; height: 520px; }
+  .team .p2 { left: 19%; top: 200px; width: 24%; height: 460px; z-index: 2; color: var(--navy); }
+  .team .p3 { left: 46%; top: 300px; width: 16%; height: 300px; }
+
+  /* 8 visit: navy footer, peach map block rising out of it */
+  footer { position: relative; margin-top: 260px; padding: 120px 0 80px;
+    border-radius: var(--r-xl) var(--r-xl) 0 0; }
+  footer .map { position: absolute; right: 6%; top: -150px; width: 32%; height: 360px;
+    border-radius: 40px; display: grid; place-items: center; color: var(--navy); }
+  footer .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; width: 56%; }
+  footer h2 { color: var(--peach); grid-column: 1 / -1; }
+  footer b { color: var(--peach); font-family: var(--display); display: block; }
+
+  /* mobile: rectangles stack, overlaps shrink to small offsets */
+  @media (max-width: 860px) {
+    section { margin-block: 80px; }
+    .stage { height: auto !important; display: flex; flex-direction: column; }
+    .rect, .stage .copy, .why ul, .menu .title, footer .map { position: relative; left: auto !important;
+      right: auto !important; top: auto !important; bottom: auto !important; width: auto !important; }
+    .hero .panel { height: 440px; margin-top: 32px; margin-right: 18%; }
+    .hero .bar { margin: -48px 0 0 14%; grid-template-columns: 1fr 1fr; padding: 24px; }
+    .hero .panel { padding-bottom: 60px; }
+    .menu .one > * { max-width: none; }
+    .menu .title { white-space: normal; margin-bottom: 24px; }
+    .story .strip { height: auto; padding: 48px 24px; margin-right: 10%; margin-left: calc(-1 * var(--gutter)); }
+    .story .photo { height: 380px; margin: -40px 0 0 34%; }
+    .why .tag { height: 56px; margin: 0 30% 0 40%; }
+    .why .tall { height: auto; padding: 48px 32px; margin: -28px 12% 0 0; }
+    .why ul { margin-top: 40px; }
+    .coffee .photo { height: 320px; order: -2; margin-left: 14%; }
+    .coffee .back { height: 120px; margin: -60px 50% 0 0; order: -1; }
+    .coffee .copy { margin-top: 32px; }
+    .menu .one, .menu .two { height: auto; padding: 40px 28px; }
+    .menu .two { margin: -32px 0 0 10%; }
+    .menu .one { margin-right: 6%; }
+    .cakes .photo { height: 420px; margin-right: 20%; }
+    .cakes .cap { margin: -60px 6% 0 30%; }
+    .cakes .copy { margin-top: 32px; }
+    .team .p1, .team .p2, .team .p3 { height: 220px; }
+    .team .p2 { margin: -40px 0 0 24%; }
+    .team .p3 { margin: -30px 40% 0 8%; }
+    .team .copy { order: -1; margin-bottom: 32px; }
+    footer .map { height: 200px; margin: -200px 0 40px 30%; }
+    footer .cols { width: auto; grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<header class="wrap bar">
+  <img src="../../assets/brand/nasha-logo-blue.svg" alt="nasha">
+  <nav><a href="#kava">Káva</a><a href="#listok">Lístok</a><a href="#tim">Tím</a><a href="#navsteva">Návšteva</a></nav>
+</header>
+
+<main class="wrap">
+  <section class="stage hero">
+    <div class="copy">
+      <h1>Výberová káva v&nbsp;centre Vranova.</h1>
+      <p>Kaviareň a pražiareň na Námestí slobody. Espresso, filtrovaná káva, koláče a miesto, kde si môžeš sadnúť.</p>
+    </div>
+    <div class="rect panel decanter" data-logo="../../assets/brand/nasha-logo.svg"></div>
+    <div class="rect bar navyb">
+      <div><b>Pondelok až piatok</b>7:00 – 17:30</div>
+      <div><b>Sobota</b>8:30 – 16:00</div>
+      <div><b>Kde nás nájdeš</b>Námestie slobody 2467/3</div>
+    </div>
+  </section>
+
+  <section class="stage story">
+    <div class="rect strip peachb">
+      <h2>Viac než len podávať kávu.</h2>
+      <p>Keď sme zakladali Nashu, chceli sme viac než len podávať kávu. Chceli sme vytvoriť priestor, kde sa stretávajú ľudia, ktorí majú radi kvalitu a dobrú atmosféru.</p>
+      <p>Podporou Nasha podporuješ férový obchod, lokálnu kvalitu a miesto, ktoré má dušu.</p>
+    </div>
+    <div class="rect photo"><img src="../../assets/brand/illustration/d1831ee7-0aa1-44e9-9e05-5295d7d721f6.jfif" alt="Okno kaviarne s rastlinami a barovým pultom"></div>
+  </section>
+
+  <section class="stage why">
+    <div class="rect tag peachb" aria-hidden="true"></div>
+    <div class="rect tall navyb"><h2 class="caps">Prečo výberová káva?</h2></div>
+    <ul>
+      <li><b class="t">Lepšia kvalita</b>Žiadne defektné zrná, čisté chute.</li>
+      <li><b class="t">Spravodlivé odmeny</b>Podpora farmárov a pestovateľov.</li>
+      <li><b class="t">Čerstvosť</b>Pražené lokálne, u nás vždy čerstvé.</li>
+    </ul>
+  </section>
+
+  <section class="stage coffee" id="kava">
+    <div class="copy">
+      <h2>Od zeleného zrna po šálku.</h2>
+      <p>V jednom mlynčeku je espresso z&nbsp;100&nbsp;% arabiky, v druhom sa striedajú svetlejšie, ovocnejšie kávy. Na filter V60, AeroPress a batch brew. Zrná si môžeš kúpiť aj domov.</p>
+      <p class="note">Doplniť: čo pražíte a odkiaľ je zelená káva.</p>
+    </div>
+    <div class="rect back peachb" aria-hidden="true"></div>
+    <div class="rect photo"><img src="../../assets/brand/illustration/c0ce1a3e-902f-414f-8a56-771a142967e6.jfif" alt="Vrecia zelenej kávy"></div>
+  </section>
+
+  <section class="stage menu" id="listok">
+    <h2 class="caps title">Nápojový lístok</h2>
+    <div class="rect one navyb">
+      <h3 class="t">Čierna káva</h3><ul class="menu-list">
+        <li>Espresso<span>1.8</span></li><li>Caffè americano<span>1.8</span></li><li>Double shot<span>2.7</span></li></ul>
+      <h3 class="t">Mliečna káva</h3><ul class="menu-list">
+        <li>Espresso macchiato<span>2.2</span></li><li>Cappuccino<span>2.4</span></li>
+        <li>Caffè latte<span>2.6</span></li><li>Flat white<span>2.9</span></li></ul>
+      <h3 class="t">Filtrovaná káva</h3><ul class="menu-list">
+        <li>AeroPress<span>3.2</span></li><li>V60<span>3.2</span></li><li>Batch brew<span>2.8</span></li></ul>
+    </div>
+    <div class="rect two peachb">
+      <h3 class="t">Káva na ľade</h3><ul class="menu-list">
+        <li>Ice latte<span>3.1</span></li><li>Espresso tonic<span>3.6</span></li><li>Náš espresso tonic<span>3.9</span></li></ul>
+      <h3 class="t">Super latte</h3><ul class="menu-list">
+        <li>Matcha latte<span>2.9</span></li><li>Chai latte<span>2.9</span></li><li>Kurkuma latte<span>3.1</span></li></ul>
+      <h3 class="t">Limonády</h3><ul class="menu-list">
+        <li>Jahoda &amp; mäta<span>3.6</span></li><li>Passion &amp; mango<span>3.6</span></li><li>Pravá citrónová<span>3.6</span></li></ul>
+      <p class="note" style="margin-top:20px">Ceny z lístka od 1. 4. 2025 — overiť</p>
+    </div>
+  </section>
+
+  <section class="stage cakes">
+    <div class="rect photo"><img src="../../assets/brand/illustration/6f98a6dd-9f14-457d-aae3-8ce3701df8d5.jfif" alt="Koláč s karamelom a arašidmi" style="object-position:45% 40%"></div>
+    <div class="rect cap peachb">Od cukrárne Kejtlyn, pár krokov od nás.</div>
+    <div class="copy">
+      <h2>Ku káve niečo sladké.</h2>
+      <p class="note">Doplniť: aktuálne koláče a fotky.</p>
+    </div>
+  </section>
+
+  <section class="stage team" id="tim">
+    <div class="copy">
+      <h2>Ivona, Peter a&nbsp;tím</h2>
+      <p>Pred kaviarňou robili Ivona a Peter kávové pikniky v prírode. V októbri 2022 otvorili Nashu v priestore bývalej garáže.</p>
+    </div>
+    <div class="rect p p1 navyb">Ivona</div>
+    <div class="rect p p2 peachb">Peter</div>
+    <div class="rect p p3 navyb">Tím</div>
+  </section>
+</main>
+
+<footer class="navyb" id="navsteva">
+  <div class="map peachb caps">mapa</div>
+  <div class="wrap">
+    <div class="cols">
+      <h2 class="caps">Príď k nám</h2>
+      <div><b>Adresa</b>Námestie slobody 2467/3<br>Vranov nad Topľou</div>
+      <div><b>Otvorené</b>Po–Pi 7:00 – 17:30<br>So 8:30 – 16:00<br>Ne zatvorené</div>
+      <div><b>Na mieste</b>Terasa, psy vítané, bezbariérový vstup, rastlinné mlieko</div>
+      <div><b>Instagram</b>@nasha.kaviaren</div>
+    </div>
+  </div>
+</footer>
+<script src="decanter.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nasha — návrhy</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { padding-block: 48px 96px; }
+  h1 { font-size: clamp(32px, 4vw, 52px); margin: 12px 0 16px; }
+  .lead { max-width: 60ch; margin-bottom: 56px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .card { display: block; text-decoration: none; border-radius: var(--r-md); padding: 32px;
+    border: 2px solid var(--navy); }
+  .card:hover { background: var(--peach); }
+  .card h2 { font-size: 22px; margin: 8px 0 12px; }
+  .demo .decanter { border-radius: var(--r-lg); height: 560px; }
+  .list { display: grid; gap: 20px; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <img src="../../assets/brand/nasha-logo-blue.svg" alt="nasha" style="height:40px">
+  <h1>Návrhy pre web</h1>
+  <p class="lead">Všetky používajú len modrú, broskyňovú a bielu, oblé obdĺžniky (vždy zvislé alebo vodorovné) a aktívne využitý negative space. Líšia sa v tom, ako obdĺžniky tvoria stránku. Obsah a ceny sú zo starého lístka a verejných článkov — sú to len ukážky.</p>
+  <div class="grid">
+    <div class="list">
+      <a class="card" href="e-final.html" style="background:var(--peach)"><p class="eyebrow">E · finálny kandidát</p><h2>Final</h2><p>Základ z D. Úvod s kreslenými predmetmi v hĺbke okolo loga (B), pás s espressom a Instagram (C), záverečný blok (A), všetky fotky, celý lístok a sekcia o káve pražiacej sa vo Vranove.</p></a>
+      <a class="card" href="a-stlpy.html"><p class="eyebrow">A</p><h2>Stĺpy</h2><p>Vysoké zvislé bloky. Každá sekcia má jeden blok a text stojí vedľa neho na bielom.</p></a>
+      <a class="card" href="b-listok.html"><p class="eyebrow">B</p><h2>Lístok</h2><p>Web ako váš tlačený lístok: verzálky s rozstupom, obrysové šálky, jeden modrý blok na „dvojstranu“.</p></a>
+      <a class="card" href="c-pasy.html"><p class="eyebrow">C</p><h2>Pásy</h2><p>Dlhé vodorovné pásy vychádzajú z okraja obrazovky a striedajú strany. Text je v medzere, ktorú nechajú.</p></a>
+      <a class="card" href="d-asymetria.html"><p class="eyebrow">D</p><h2>Asymetria</h2><p>Každá sekcia je poskladaná inak. Obdĺžniky sa čiastočne prekrývajú, nikdy nesedia roh na roh a menia veľkosť aj odsadenie.</p></a>
+    </div>
+    <div class="demo">
+      <div class="decanter" data-logo="../../assets/brand/nasha-logo.svg"></div>
+      <p class="note" style="margin-top:12px">Animácia: origami dripper na serveri — kliknutím sa spustí znova.</p>
+    </div>
+  </div>
+</main>
+<script src="decanter.js"></script>
+</body>
+</html>

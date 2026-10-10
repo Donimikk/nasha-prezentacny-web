@@ -1,0 +1,13 @@
+WORKLOG.md
+.remember/
+.env
+.env.*
+node_modules/
+.DS_Store
+.playwright-mcp/
+assets/instagram/
+docs/ig-scan.json
+docs/ig-feed.json
+__pycache__/
+.pytest_cache/
+.superpowers/
