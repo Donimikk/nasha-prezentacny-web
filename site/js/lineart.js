@@ -84,9 +84,7 @@
       else raf = null;
     }
 
-    // On phones the CSS pins the objects in place, so the loop would only burn battery.
-    const phone = window.matchMedia('(max-width: 900px)').matches;
-    if (reduce || phone) {
+    if (reduce) {
       items.forEach((it) => { it.el.style.transform = `rotate(${it.rot}deg)`; });
       return;
     }
