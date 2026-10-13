@@ -140,6 +140,13 @@
     }
 
     host.addEventListener('click', play);
+    // keyboard users can replay it too
+    host.tabIndex = 0;
+    host.setAttribute('role', 'button');
+    host.setAttribute('aria-label', 'Prehrať animáciu prípravy kávy znova');
+    host.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); play(); }
+    });
     // Start only when most of the panel is on screen, and replay each time it
     // comes back into view after having left it completely.
     let armed = true;

@@ -57,7 +57,11 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.15; }
 .bar nav { display: flex; gap: 28px; font-family: var(--display); font-weight: 600;
   font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; }
 .bar nav a { text-decoration: none; }
-@media (max-width: 760px) { .bar nav { display: none; } }
+.bar nav a { padding-block: 6px; }
+@media (max-width: 760px) {
+  header.bar { flex-wrap: wrap; gap: 10px; }
+  header.bar nav { width: 100%; justify-content: space-between; gap: 8px; font-size: 12px; letter-spacing: 0.1em; }
+}
 
 .note {
   font-size: 12px; opacity: 0.6; font-style: italic;
@@ -80,8 +84,12 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.15; }
      section, Instagram strip), A's closing block. Photos may stand on, lean out
      of or cross the edge of a rectangle. Negative space is used actively: text
      sits in the gaps the shapes leave, not in leftover white. */
-  :root { --r-xl: 46px; --ig: '../../assets/instagram/'; }
-  body { overflow-x: hidden; }
+  :root { --r-xl: 46px;
+    /* distance from the content edge (.wrap) to the viewport edge, for full-bleed shapes */
+    --bleed: calc((100vw - min(var(--max), 100vw - 2 * var(--gutter))) / 2); }
+  /* clip on both: body alone does not stop mobile browsers from widening the layout viewport
+     when transformed hero art or full-bleed bands reach past the screen edge */
+  html, body { overflow-x: clip; }
   .stage { position: relative; }
   /* in-flow column: the section grows with it; shapes and photos stay absolute */
   .flow { position: relative; z-index: 2; }
@@ -151,8 +159,8 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.15; }
 
   /* 5 espresso: C-style band from the right edge, text in the gap on the left */
   .esp { display: grid; grid-template-columns: 38% 1fr; align-items: center; gap: 48px; }
-  .esp .band { margin-right: calc((100% - 100vw) / 2); height: 460px; border-radius: var(--r-xl) 0 0 var(--r-xl);
-    position: relative; padding: 30px calc((100vw - 100%) / 2 + 30px) 30px 30px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 24px; }
+  .esp .band { margin-right: calc(-1 * var(--bleed)); height: 460px; border-radius: var(--r-xl) 0 0 var(--r-xl);
+    position: relative; padding: 30px calc(var(--bleed) + 30px) 30px 30px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 24px; }
   .esp .band .ph { height: 100%; box-shadow: none; }
   .esp .band .ph.lift { margin-top: -80px; height: calc(100% + 40px); box-shadow: 0 18px 40px -24px rgba(30,33,85,.55); }
 
@@ -212,9 +220,13 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.15; }
 
   /* 10 Instagram strip: C-style band, edge to edge */
   .igs { padding: 36px 0; border-radius: 0; overflow: hidden; }
-  .igs .row { display: flex; gap: 16px; width: max-content; animation: drift 60s linear infinite; }
+  .igs .row { display: flex; gap: 16px; padding-right: 16px; width: max-content; animation: drift 60s linear infinite; }
+  .igs:hover .row, .igs:focus-within .row, .igs.paused .row { animation-play-state: paused; }
+  .igs .ctl { display: flex; gap: 16px; align-items: baseline; flex-wrap: wrap; }
+  .igs .pause { font: inherit; font-size: 13px; background: none; border: 1px solid var(--peach); color: var(--peach);
+    border-radius: 999px; padding: 6px 14px; cursor: pointer; min-height: 32px; }
   .igs .row img { height: 260px; width: auto; border-radius: 22px; }
-  .igs .head { display: flex; justify-content: space-between; align-items: baseline; width: min(var(--max), 100% - 2 * var(--gutter)); margin: 0 auto 22px; }
+  .igs .head { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: space-between; align-items: baseline; width: min(var(--max), 100% - 2 * var(--gutter)); margin: 0 auto 22px; }
   .igs .head a { color: var(--peach); font-weight: 600; }
   @keyframes drift { to { transform: translateX(-50%); } }
 
@@ -233,7 +245,7 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.15; }
   @media (prefers-reduced-motion: reduce) { .igs .row { animation: none; } }
 
   /* mobile: stack, keep small overlaps so the shapes still interlock */
-  @media (max-width: 900px) {
+  @media (max-width: 1023px) {
     section { margin-block: 64px; }
     .stage { min-height: 0 !important; padding-top: 0 !important; }
     .stage .flow { margin-left: 0 !important; margin-right: 0 !important; width: auto !important; }
@@ -243,16 +255,20 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.15; }
     .stage { height: auto !important; display: flex; flex-direction: column; }
     .stage > .abs { position: relative; left: auto !important; top: auto !important; right: auto !important;
       bottom: auto !important; width: auto !important; }
-    .stage.hero { display: block; height: 720px !important; perspective: none; }
+    /* hero in normal flow: the peach block grows with its text and the hours bar
+       always overlaps only its reserved bottom padding, at any width or font size */
+    .stage.hero { display: flex; flex-direction: column; height: auto !important; padding-top: 150px !important; perspective: none; }
     .hero .m-hide { display: none; }
     .hero [data-art] { scale: .5; transform-origin: top left; }
-    .hero .logo { top: 170px; width: 82vw; } .hero .tag { top: 290px; white-space: normal; width: 90%; }
-    .stage.hero > .abs.peb { position: absolute !important; left: calc(-1 * var(--gutter)) !important; bottom: 190px !important;
-      width: 86% !important; height: auto; padding: 24px 24px 40px calc(var(--gutter) + 4px); }
-    .stage.hero > .abs.bar { position: absolute !important; left: 8% !important; bottom: 0 !important; width: 92% !important;
-      grid-template-columns: 1fr 1fr; padding: 20px; gap: 16px; }
-    .hero [data-art][data-art="cake"] { top: 380px !important; }
-    .hero [data-art][data-art="pitcher"] { top: 360px !important; left: 82% !important; }
+    .hero h1 { position: relative; z-index: 3; }
+    .hero .logo { position: relative; left: auto; top: auto; transform: none; display: block; margin: 0 auto; width: min(82vw, 540px); }
+    .hero .tag { position: relative; left: auto; top: auto; transform: none; white-space: normal; width: auto; margin-top: 18px; }
+    .stage.hero > .abs.peb { position: relative !important; margin: 48px 0 0 calc(-1 * var(--gutter)); width: 86% !important;
+      height: auto; padding: 24px 24px 64px calc(var(--gutter) + 4px); }
+    .stage.hero > .abs.bar { position: relative !important; margin: -36px 0 0 8%; width: 92% !important;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); padding: 20px; gap: 16px; }
+    .hero [data-art][data-art="cake"] { top: 290px !important; left: 2% !important; }
+    .hero [data-art][data-art="pitcher"] { top: 290px !important; left: 82% !important; }
     .story .strip { height: auto; padding: 40px 24px; margin-left: calc(-1 * var(--gutter)); margin-right: 8%; }
     .story .strip .txt { width: auto; }
     .story .win { height: 360px; margin: -36px 0 0 30%; order: 2; }
@@ -276,7 +292,7 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.15; }
     .filter .txt { margin-top: 28px; }
     .award .pic { height: 300px; margin: 0 40% 0 0; }
     .award .card { margin: -60px 0 0 8% !important; padding: 80px 26px 28px; }
-    .menu .title { margin-bottom: 20px; }
+    .menu .title { margin-bottom: 20px; white-space: normal; }
     .menu .cols { grid-template-columns: 1fr; }
     .menu .one { padding: 36px 26px; margin-right: 4%; }
     .menu .two { padding: 36px 26px; margin: -28px 0 0 6%; }

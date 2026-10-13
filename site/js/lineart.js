@@ -45,7 +45,11 @@
       <path ${P} d="M10,40 L40,54 L40,62 L10,48 Z"/><circle ${S} cx="68" cy="26" r="5"/></svg>`,
   };
 
-  document.querySelectorAll('[data-art]').forEach((n) => { n.innerHTML = ART[n.dataset.art] || ''; });
+  // decorative: hidden from screen readers
+  document.querySelectorAll('[data-art]').forEach((n) => {
+    n.innerHTML = ART[n.dataset.art] || '';
+    n.setAttribute('aria-hidden', 'true');
+  });
 
   // depth field
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
